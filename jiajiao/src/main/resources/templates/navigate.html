@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // $(".dropdown-toggle").dropdown();
+            var location = window.location.href;
+            console.log(location);
+            var id = location.substr(location.lastIndexOf('/')+1);
+            console.log(id);
+            $("#"+id).addClass("active");
+
+        });
+        $("#dropdownMenu1").on('click',function(){
+            $(".dropdown-toggle").dropdown();
+        });
+
+    </script>
+</head>
+<body>
+
+<div th:fragment="nav">
+<!--    <nav class="navbar navbar-default" id="jiajiao_nav">-->
+<!--    <div class="container-fluid">-->
+<!--        <div class="navbar-header">-->
+<!--            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">-->
+<!--                <span class="sr-only">Toggle navigation</span>-->
+<!--                <span class="icon-bar"></span>-->
+<!--                <span class="icon-bar"></span>-->
+<!--                <span class="icon-bar"></span>-->
+<!--            </button>-->
+<!--            <a class="navbar-brand" href="/">家教中心</a>-->
+<!--        </div>-->
+
+<!--        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">-->
+<!--            <ul class="nav navbar-nav">-->
+<!--                <li id="showIndex"><a href="/showIndex" >首页 <span class="sr-only">(current)</span></a></li>-->
+<!--                <li id="teacher"><a href="/teacher/teacher">家教信息库</a></li>-->
+<!--                <li id="student"><a href="/user/student">学员信息</a></li>-->
+<!--            </ul>-->
+<!--            <form class="navbar-form navbar-left">-->
+<!--                <div class="form-group">-->
+<!--                    <input type="text" class="form-control" placeholder="请输入关键词...">-->
+<!--                </div>-->
+<!--                <button type="submit" class="btn btn-default">搜索</button>-->
+<!--            </form>-->
+<!--            <ul class="nav navbar-nav navbar-right">-->
+<!--                &lt;!&ndash;没有登录显示&ndash;&gt;-->
+<!--                <li><a href="/">登录</a></li>-->
+<!--                &lt;!&ndash;登录后显示&ndash;&gt;-->
+<!--                <li class="dropdown">-->
+<!--                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"id="dropdownMenu1" >用户名 <span class="caret"></span></a>-->
+<!--                    <ul class="dropdown-menu">-->
+<!--                        <li><a href="#">Action</a></li>-->
+<!--                        <li><a href="#">Another action</a></li>-->
+<!--                        <li><a href="#">Something else here</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a th:href="@{'/'+${type}+'/logout'}">退出</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</nav>-->
+    <nav class="navbar navbar-default" id="jiajiao_nav">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">家教中心</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li id="showIndex"><a href="/showIndex">首页 <span class="sr-only">(current)</span></a></li>
+                    <li id="teacher"><a href="/teacher/teacher">家教信息库</a></li>
+                    <li id="student"><a href="/user/student">学员信息</a></li>
+                </ul>
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="请输入关键词...">
+                    </div>
+                    <button type="submit" class="btn btn-default">搜索</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <!--登录后显示-->
+                    <li class="dropdown" th:if="${session.student != null}">
+
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"id="dropdownMenu1" th:text="${session.student.getUsername()}">
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a th:href="@{/logout}">退出</a></li>
+                        </ul>
+                    </li>
+                    <!--教师登录后显示-->
+                    <li class="dropdown" th:if="${session.teacher != null}">
+
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"id="dropdownMenu2" th:text="${session.teacher.getUsername()}">
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{'/'+${type}+'/toSetting'}">个人主页</a></li>
+                            <li><a th:href="@{/logout}">退出</a></li>
+                        </ul>
+                    </li>
+                    <!--没有登录显示-->
+                    <li th:if="${session.student == null}">
+                        <a href="/">登录</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

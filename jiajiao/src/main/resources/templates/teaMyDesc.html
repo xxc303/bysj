@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="/css/jiajiao.css">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>家教网</title>
+    <script src="/js/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/vendor/popper.js/umd/popper.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+</head>
+<body id="jiajiao">
+<p><a href="/" class="navbar-link" style="text-decoration: none"><h2>家教网</h2></a></p>
+<!--引入导航栏-->
+<!--<div th:include="~{navigate :: nav}"></div>-->
+<nav class="navbar navbar-default" id="jiajiao_nav" style="margin-bottom: 0;">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">家教中心</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li id="showIndex"><a href="/showIndex">首页 <span class="sr-only">(current)</span></a></li>
+                <li id="teacher"><a href="/teacher/teacher">家教信息库</a></li>
+                <li id="student"><a href="/student/student">学员信息</a></li>
+            </ul>
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请输入关键词...">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <!--登录后显示-->
+                <li class="dropdown" th:if="${session.student != null}">
+
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"id="dropdownMenu1" th:text="${session.student.getUsername()}">
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{'/'+${type}+'/toSetting'}">个人主页</a></li>
+                        <li><a th:href="@{'/'+${type}+'/logout'}">退出</a></li>
+                    </ul>
+                </li>
+                <!--教师登录后显示-->
+                <li class="dropdown" th:if="${session.teacher != null}">
+
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"id="dropdownMenu2" th:text="${session.teacher.getUsername()}">
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{'/'+${type}+'/toSetting'}">个人主页</a></li>
+                        <li><a th:href="@{'/'+${type}+'/logout'}">退出</a></li>
+                    </ul>
+                </li>
+                <!--管理员登录后显示-->
+                <li class="dropdown" th:if="${session.admin != null}">
+
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"id="dropdownMenu3" th:text="${session.admin.getUsername()}">
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{'/'+${type}+'/toSetting'}">个人主页</a></li>
+                        <li><a th:href="@{'/'+${type}+'/logout'}">退出</a></li>
+                    </ul>
+                </li>
+                <!--没有登录显示-->
+                <li th:if="${session.student == null && session.teacher == null && session.admin== null}">
+                    <a href="/">登录</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 navbar navbar-default">
+    <ul class="nav nav-pills nav-stacked">
+        <li class="nav-item">
+            <a href="/" class="button_left" style="margin-top: 40px;">
+                <span class="glyphicon glyphicon-home"></span>
+                <span th:text="首页"></span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="collapsed button_left" data-toggle="collapse" href="#collapseExample1"aria-expanded="false" aria-controls="collapseExample">
+                <span class="glyphicon glyphicon-list-alt"></span>
+                <span th:text="家教中心"></span>
+                <span class="glyphicon glyphicon-menu-right" style="font-size: 1px"></span>
+            </a>
+            <ul class="nav nav-pills nav-stacked collapse" id="collapseExample1">
+                <li class="nav-item">
+                    <a th:href="@{'/'+${type}+'/toPublicOrder'}" class="button_child">
+                        <span th:text="寻找家教"></span>
+                    </a>
+                <li class="nav-item">
+                    <a th:href="@{'/'+${type}+'/toMyOrders'}" class="button_child active">
+                        <span th:text="我的家教"></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a class="collapsed button_left" data-toggle="collapse" href="#collapseExample2"aria-expanded="true" aria-controls="collapseExample">
+                <span class="glyphicon glyphicon-user"></span>
+                <span th:text="个人中心"></span>
+                <span class="glyphicon glyphicon-menu-down" style="font-size: 1px"></span>
+            </a>
+            <ul class="nav nav-pills nav-stacked collapse show" id="collapseExample2">
+                <li class="nav-item active">
+                    <a th:href="@{'/'+${type}+'/toMyDesc'}" class="button_child">
+                        <span th:text="修改资料"></span>
+                    </a>
+                <li class="nav-item">
+                    <a th:href="@{'/'+${type}+'/toChangePwd'}" class="button_child">
+                        <span th:text="修改密码"></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="button_left" style="margin-bottom: 25px;">
+                <span class="glyphicon glyphicon-log-out"></span>
+                <span th:text="退出登录"></span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="col-lg-10 col-md-12 col-sm-12 col-xs-12 navbar navbar-default" style="padding: 0px">
+    <div class="page-holder w-100 d-flex flex-wrap">
+        <div class="container-fluid px-xl-5">
+            <section class="py-5">
+                <div class="row">
+                    <div class="col-lg-12 mb-5">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="h6 text-uppercase mb-0">修改个人资料</h3>
+                            </div>
+                            <div class="card-body">
+                                <!--                                <c:if test="${not empty msg}"><div class="alert-${msg_type} alert">${msg}</div></c:if>-->
+                                <p>请填写详细信息.</p>
+                                <form th:action="@{'/'+${type}+'/updateTeacher'}" method="post">
+                                    <input type="hidden" required name="id" th:value="${teacher.id}">
+                                    <div class="form-group">
+                                        <label class="form-control-label text-uppercase" >姓名</label>
+                                        <input type="text" placeholder="请输入姓名"required name="username" class="form-control" th:value="${teacher != null}?${teacher.username}"> <!--<c:if test="${type == 'teacher'}">disabled</c:if>-->
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-control-label text-uppercase" >性别</label>
+                                        <select class="form-control" required name="sex" th:value="${teacher != null}?${teacher.sex}"><!--<c:if test="${type == 'teacher'}">disabled</c:if>>-->
+                                            <th:if value='男'>
+                                                <option value="男" selected>男</option>
+                                                <option value="女">女</option>
+                                            </th:if>
+                                            <th:if value='女'>
+                                                <option value="男">男</option>
+                                                <option value="女" selected>女</option>
+                                            </th:if>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-control-label text-uppercase" >身份证</label>
+                                        <input type="text" placeholder="请输入身份证" required name="idNumber" class="form-control" th:value="${teacher != null}?${teacher.idNumber}"> <!--<c:if test="${type == 'teacher'}">disabled</c:if>>-->
+                                    </div>
+                                    <!--                                    <c:if test="${type == 'user'}">-->
+                                    <div class="form-group">
+                                        <label class="form-control-label text-uppercase">所在区域</label>
+                                        <input type="text" placeholder="请输入所在区域"required name="area" class="form-control" th:value="${teacher != null}?${teacher.area}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-control-label text-uppercase">详细地址</label>
+                                        <input type="text" placeholder="请输入详细地址" required  name="address" class="form-control" th:value="${teacher != null}?${teacher.address}">
+                                    </div>
+                                    <!--                                    </c:if>-->
+                                    <div class="form-group">
+                                        <label class="form-control-label text-uppercase">联系电话</label>
+                                        <input type="text" placeholder="请输入联系电话" required name="phone" class="form-control" th:value="${teacher != null}?${teacher.phone}">
+                                    </div>
+                                    <!--                                    <c:if test="${type == 'teacher'}">-->
+<!--                                    <div class="form-group">-->
+<!--                                        <label class="form-control-label text-uppercase">个人描述</label>-->
+<!--                                        <input type="text" placeholder="请输入个人描述" required name="description" class="form-control" th:value="${student != null}?${student.charac}">-->
+<!--                                    </div>-->
+                                    <!--                                    </c:if>-->
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">提交修改</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+</body>
+</html>

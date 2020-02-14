@@ -1,0 +1,98 @@
+#jiajiao{
+margin-top: 10px;
+    margin-left: 300px;
+    margin-right: 300px;
+
+}
+.list-group-item {
+    font-size: 12px;
+}
+
+.list-group-title {
+    font-weight: bolder;
+}
+.text_left {
+    font-size: 18px;
+    color: rgb(164,168,178);
+}
+
+.text_right {
+    font-size: 15px;
+    color: rgb(64, 64, 64);
+}
+
+.media-heading {
+    font-weight: bolder;
+    color: black;
+    font-size: 19px;
+}
+.media{
+    position: relative;
+    bottom: 20px;
+}
+.media:hover {
+    background-color: rgb(255, 254, 248);
+}
+
+.img-circle {
+    height: 102px;
+    width: 102px;
+}
+.form-horizontal {
+    background-color: rgb(255,254,248);
+    width: 347px;
+    /*height: 200px;*/
+    float: right;}
+ul{
+    list-style: none;
+}
+.nr1 {
+    height: 26px;
+}
+.text_desc{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+    width:240px;
+    height:17px;
+    display:inline-block;
+    margin-top: 10px;
+}
+.comment_left{
+    font-size: 13px;
+    color: rgb(164,168,178);
+}
+.comment_right{
+    font-size: 12px;
+    color: rgb(64, 64, 64);
+}
+.comment_count{
+    margin-left: 10px;
+    font-size: 12px;
+    color: green;
+}
+.comment_reply:hover{
+    cursor: pointer;
+    color: cornflowerblue;
+}.comment_reply{
+     color: rgb(164,168,190);
+ }
+ #sidebar{
+     background-color: #e7e7e7;
+ }
+.button_left{
+    height: 55px;
+    line-height: 40px;
+    text-align: left;
+    font-size: 19px;
+    margin-bottom: 15px;
+    color: #777;
+}
+
+.button_child{
+    height: 40px;
+    line-height: 23px;
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+}

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="/css/jiajiao.css">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>家教网</title>
+    <script src="/js/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/vendor/popper.js/umd/popper.min.js" type="text/javascript"> </script>
+    <script src="/js/jiajiao.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // $(".dropdown-toggle").dropdown(toggle);
+            var location = window.location.href;
+            var id = location.substr(location.lastIndexOf('/')+1);
+            $("#"+id).addClass("active");
+        });
+    </script>
+</head>
+<body id="jiajiao">
+<p><a href="/" class="navbar-link" style="text-decoration: none"><h2>家教网</h2></a></p>
+<!--引入导航栏-->
+<!--<div th:include="~{navigate :: nav}"></div>-->
+<nav class="navbar navbar-default" id="jiajiao_nav">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">家教中心</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li id="showIndex"><a href="/showIndex">首页 <span class="sr-only">(current)</span></a></li>
+                <li id="teacher"><a href="/teacher/teacher">家教信息库</a></li>
+                <li id="student"><a href="/student/student">学员信息</a></li>
+            </ul>
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请输入关键词...">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <!--登录后显示-->
+                <li class="dropdown" th:if="${session.student != null}">
+
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"id="dropdownMenu1" th:text="${session.student.getUsername()}">
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{'/'+${type}+'/toSetting'}">个人主页</a></li>
+                        <li><a th:href="@{'/'+${type}+'/logout'}">退出</a></li>
+                    </ul>
+                </li>
+                <!--教师登录后显示-->
+                <li class="dropdown" th:if="${session.teacher != null}">
+
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"id="dropdownMenu2" th:text="${session.teacher.getUsername()}">
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{'/'+${type}+'/toSetting'}">个人主页</a></li>
+                        <li><a th:href="@{'/'+${type}+'/logout'}">退出</a></li>
+                    </ul>
+                </li>
+                <!--管理员登录后显示-->
+                <li class="dropdown" th:if="${session.admin != null}">
+
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"id="dropdownMenu3" th:text="${session.admin.getUsername()}">
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{'/'+${type}+'/toSetting'}">个人主页</a></li>
+                        <li><a th:href="@{'/'+${type}+'/logout'}">退出</a></li>
+                    </ul>
+                </li>
+                <!--没有登录显示-->
+                <li th:if="${session.student == null && session.teacher == null && session.admin== null}">
+                    <a href="/">登录</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" style="border: 1px solid #ddd">
+            <div class="media2">
+<!--                <div class="media-left media-middle" style="position: fixed;top: 154px;">-->
+                <div class="media-left media-middle">
+                    <div style="margin-top: -389px">
+                        <a href="#">
+                            <img target="_blank" src="http://www.jiajiao400.com/images2014/nopic.png" alt="" class="img-rounded" style="height: 200px; width: 135px">
+                        </a>
+                    </div>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <ul class="list-group"style="width: 135px">
+                            <li class="list-group-item list-group-item-info" th:text="'ID:'+${teacher.idNumber}"></li>
+                            <li class="list-group-item list-group-item-warning" th:text="'浏览量:1705'"></li>
+                            <li class="list-group-item list-group-item-danger" th:text="'经验指数:5'"></li>
+                        </ul>
+                    </div>
+                </div>
+<!--                <div class="media-body"style="margin-left: 140px;position: fixed;margin-top:50px;">-->
+                <div class="media-body">
+                    <div style="margin-top: 40px;background-color: rgb(246,248,250);">
+                    <h4 class="media-heading" th:text="${teacher.username}"></h4>
+                    <span th:text="${teacher.title}"></span>
+                        <br>
+                    </div>
+                    <br>
+                    <div class="text-detail">
+                        <div class="text_left"style="width: 90px;height: 24px;position: absolute">年龄：</div> <span class="text_right" th:text="${teacher.age}" style="margin-left: 90px"></span>
+                        <br><br>
+                        <div class="text_left" style="width: 90px;height: 24px;position: absolute">性别：</div> <span class="text_right" th:text="${teacher.sex}" style="margin-left: 90px"></span>
+                        <br><br>
+                        <div class="text_left"style="width: 90px;height: 24px;position: absolute">家教经验：</div> <span class="text_right" th:text="${teacher.teachYear}+'年'" style="margin-left: 90px"></span>
+                        <br><br>
+                        <div class="text_left"style="width: 90px;height: 24px;position: absolute">辅导区域：</div> <span class="text_right" th:text="${teacher.area}" style="margin-left: 90px"></span>
+                        <br><br>
+                        <div class="text_left"style="width: 90px;height: 24px;position: absolute">辅导科目：</div> <span class="text_right" th:text="${teacher.item}"style="margin-left: 90px"></span>
+                        <br><br>
+                        <div style="background-color: rgb(254,255,240)">
+                        <div class="text_left"style="width: 90px;height: 24px;position: absolute">课时费：</div>   <span class="text_right" th:text="${teacher.price}"style="margin-left: 90px"></span>
+                        <br><br>
+                        <div class="text_left"style="width: 90px;height: 24px;position: absolute">查看电话：</div> <span><button type="button" class="btn btn-success"style="margin-left: 90px">马上联系查看电话</button></span>
+                            <br>
+                        </div>
+                        <br><br>
+                        <div class="text_left"style="width: 90px;height: 24px;position: absolute">个人简介：</div> <div th:text="${teacher.description}" style="margin-left: 90px;font-size: 15px;line-height: 228%;"></div>
+                    </span>
+                </div>
+                </div>
+            </div>
+            <hr style="border: 1px solid #ddd">
+            <span style="font-size: 15px">家教点评</span><span th:text="${count}+'条'" class="comment_count"></span>
+            <hr style="border: 2px solid #ddd">
+            <div class="media_comment" >
+                <ul>
+                    <li th:each="comment : ${comments}">
+                        <div class="nr2">
+                            <span class="text_left" style="font-size: 15px; color:black" th:text="${comment.commentator}">岑女士</span>
+                            <span class="comment_left" th:text="${#dates.format(comment.creatTime,'yyyy-MM-dd')}+'发布'" style="float: right"></span>
+                        </div>
+                        <br>
+                        <div class="nr2">
+                            <span class="comment_left">辅导科目：</span> <span class="comment_right" th:text="${comment.item}" style="margin-right: 50px;"></span>
+                        </div>
+                        <div class="nr2">
+                            <span class="comment_left">学习过程：</span> <span class="comment_right" th:text="${comment.content}"></span>
+                        </div>
+                        <div class="nr2">
+                            <span class="comment_left">综合评价：</span> <span class="comment_right" th:text="${comment.overview}" style="margin-right: 50px;color:green"></span>
+                        </div>
+                        <span class="glyphicon glyphicon-comment comment_reply"></span>
+                        <hr>
+                    </li>
+                </ul>
+            </div>
+            <hr style="border: 2px solid #ddd">
+            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                写家教点评
+            </a>
+            <div class="collapse" id="collapseExample">
+                <div class="well">
+<!--                    <form method="post">-->
+                    <input type="hidden" id="teacher_id" th:value="${teacher.id}">
+                        学科名称
+                        <select id="item" th:each="item:${teacher.item}">
+                            <option>请选择学科</option>
+                            <option th:text="item"></option>
+                        </select><br>
+                        学习过程<textarea class="form-control" rows="3" id="comment_content"></textarea><br>
+                        综合评价
+                        <select id="overview">
+                            <option>请选择</option>
+                            <option>很满意</option>
+                            <option>满意</option>
+                            <option>一般</option>
+                            <option>不满意</option>
+                            <option>还不知道</option>
+                        </select><br>
+                        <button type="submit" class="btn btn-success" onclick="post()">提交</button>
+<!--                    </form>-->
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+        <div class ="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="list-group">
+                        <strong><h4 class="list-group-title">成功案例</h4></strong>
+                        <a type="button" class="list-group-item">张奇： 天津大学张同学教学案例</a>
+                        <a type="button" class="list-group-item">吕老师： 哈尔滨工程大学刘同学教学案例</a>
+                        <a type="button" class="list-group-item">王老师： 35中周同学教学案例</a>
+                        <a type="button" class="list-group-item">李锐： 北大附中叶同学教学案例</a>
+                        <a type="button" class="list-group-item">马教员： 上海杨浦小学梓欣同学教学案例</a>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="list-group">
+                        <strong><h4 class="list-group-title">热门家教信息</h4></strong>
+                        <a type="button" class="list-group-item">首都师范大学家教</a>
+                        <a type="button" class="list-group-item">北京航空航天大学家教</a>
+                        <a type="button" class="list-group-item">北京理工大学家教</a>
+                        <a type="button" class="list-group-item">北京化工大学家教</a>
+                        <a type="button" class="list-group-item">北京工业大学家教</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="border: 1px solid #ddd">
+</div>
+</body>
+</html>

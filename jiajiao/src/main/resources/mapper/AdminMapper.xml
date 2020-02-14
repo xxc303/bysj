@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace表示命名空间 -->
+<mapper namespace="com.bdu.jiajiao.mapper.AdminMapper">
+
+    <select id="login" resultType="Admin">
+        select *
+        from jiajiao.admin
+        where username = #{username}
+          and password = #{password}
+    </select>
+
+    <update id="updateAdmin" parameterType="Admin">
+        update jiajiao.admin
+        set username=#{username},
+            password=#{password},
+            create_time=#{createTime},
+            token=#{token}
+        where id = #{id}
+    </update>
+
+    <update id="changePassword">
+        update jiajiao.admin
+        set password=#{password}
+        where id = #{id}
+    </update>
+</mapper>

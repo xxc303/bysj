@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdu.jiajiao.mapper.TeacherMapper">
+
+    <select id="queryAllTeacher" resultType="Teacher">
+        select *
+        from jiajiao.teacher
+    </select>
+
+    <select id="queryTeacherById" resultType="Teacher">
+        select *
+        from jiajiao.teacher
+        where id = #{id}
+    </select>
+
+    <select id="queryTeacherByName" resultType="Teacher">
+        select *
+        from jiajiao.teacher
+        where username = #{username}
+    </select>
+
+    <insert id="addTeacher" parameterType="Teacher">
+        insert into jiajiao.teacher (username, password, sex, id_number, age, area, address, description, phone,
+                                     teach_year, price, status, title, item, create_time, token)
+        values (#{username}, #{password}, #{sex}, #{idNumber}, #{age}, #{area}, #{address}, #{description}, #{phone},
+                #{teachYear}, #{price}, #{status}, #{title}, #{item}, #{createTime}, #{token})
+    </insert>
+
+    <select id="login" resultType="Teacher">
+        select *
+        from jiajiao.teacher
+        where username = #{username}
+          and password = #{password}
+    </select>
+
+    <update id="updateTeacher" parameterType="Teacher">
+        update jiajiao.teacher
+        set username=#{username},
+            password=#{password},
+            sex=#{sex},
+            id_number=#{idNumber},
+            age=#{age},
+            area=#{area},
+            address=#{address},
+            description=#{description},
+            phone=#{phone},
+            teach_year=#{teachYear},
+            price=#{price},
+            status=#{status},
+            title=#{title},
+            create_time=#{createTime},
+            token= #{token}
+        where id = #{id}
+    </update>
+
+    <select id="findByToken" resultType="Teacher">
+        select *
+        from jiajiao.teacher
+        where token = #{token}
+    </select>
+</mapper>
